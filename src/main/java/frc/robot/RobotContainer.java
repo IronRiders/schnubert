@@ -20,11 +20,12 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  private final DriveSubsystem driveSubsystem = new DriveSubsystem();
+  private final DriveCommands driveCommands = driveSubsystem.getCommands();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
-  private final CommandXboxController m_driverController =
-      new CommandXboxController(OperatorConstants.kDriverControllerPort);
+  private final CommandXboxController primaryController =
+            new CommandXboxController(Identifiers.Controllers.PRIMARY_CONTROLLER);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -42,13 +43,14 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    new Trigger(m_exampleSubsystem::exampleCondition)
-        .onTrue(new ExampleCommand(m_exampleSubsystem));
-
-    // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
-    // cancelling on release.
-    m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
+	drive.setDefaultCommand(
+        driveCommands.teleopCommand(
+                () -> controlCurve(primaryController.getLeftY()),
+                () -> controlCurve(primaryController.getLeftX()),
+                () -> controlCurve(primaryController.getRightX()),
+                () -> controlCurve(primaryController.getRightY())
+        )
+    );
   }
 
   /**
