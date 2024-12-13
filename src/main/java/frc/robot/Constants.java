@@ -18,6 +18,7 @@ public class Constants {
 
         public static final File SWERVE_JSON_DIRECTORY = new File(Filesystem.getDeployDirectory(), "swerve"); // YAGSL directory
 
+
         public static final HolonomicPathFollowerConfig HOLONOMIC_CONFIG = new HolonomicPathFollowerConfig(
             new PIDConstants(5.0, 0.0, 0.0), // Translation PID constants
             new PIDConstants(5.0, 0.0, 0.0), // Rotation PID constants
@@ -25,5 +26,9 @@ public class Constants {
             0.43,
             new ReplanningConfig() // Default path replanning config
         );
+    }
+    public class Manipulator{
+        public static final int launcherMaxID=3;
+        public static final int beamGPIOPort=0;
     }
 }

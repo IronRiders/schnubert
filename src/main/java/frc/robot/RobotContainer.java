@@ -22,7 +22,8 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final DriveSubsystem driveSubsystem = new DriveSubsystem();
   private final DriveCommands driveCommands = driveSubsystem.getCommands();
-
+  private final ManipulatorSubsystem manipulatorSubsystem=new ManipulatorSubsystem();
+  
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController primaryController =
             new CommandXboxController(Identifiers.Controllers.PRIMARY_CONTROLLER);
@@ -51,6 +52,8 @@ public class RobotContainer {
                 () -> controlCurve(primaryController.getRightY())
         )
     );
+  primaryController.b().onTrue(m_exampleSubsystem.exampleMethodCommand(() -> 1).onlyWhile(() -> !m_exampleSubsystem.exampleCondition()));
+  primaryController.a().onTrue(m_exampleSubsystem.exampleMethodCommand(() -> -1).withTimeout(1));
   }
 
   /**
