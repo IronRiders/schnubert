@@ -5,5 +5,18 @@ import frc.robot.Constants.manipulator.*;
  * with the Pivot Subsystem and works in tandem with it.
  */
 public class ManipulatorSubsystem {
+    private final ManipulatorCommands manipulatorCommands;
+    DigitalInput beamSensor = new DigitalInput(beamGPIOPort);
 
+    public ManipulatorSubsystem(){
+        manipulatorCommands=new ManipulatorCommands();
+    }
+
+    public ManipulatorCommands getCommands(){
+        return manipulatorCommands;
+    }
+
+    public boolean beamBroken() {
+        return beamSensor.get();
+    }
 }

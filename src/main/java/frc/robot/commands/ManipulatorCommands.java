@@ -5,7 +5,6 @@ import frc.robot.Constants.manipulator.*;
  */
 public class ManipulatorCommands {
     CANSparkMax launcherSparkMax = new CANSparkMax(launcherMaxID, kBrushless);
-    DigitalInput beamSensor = new DigitalInput(beamGPIOPort);
     public Command setSpeed(DoubleSupplier speed) {
         // Inline construction of command goes here.
         // Subsystem::RunOnce implicitly requires `this` subsystem.
