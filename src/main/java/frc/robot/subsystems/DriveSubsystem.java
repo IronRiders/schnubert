@@ -1,8 +1,11 @@
-package org.ironriders.drive;
+package frc.robot.subsystems;
 
 import java.io.IOException;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+
+import frc.robot.commands.DriveCommands;
+import frc.robot.Constants.*;
 
 import swervelib.SwerveDrive;
 import swervelib.parser.SwerveParser;
@@ -32,8 +35,8 @@ public class DriveSubsystem extends SubsystemBase {
 
 		try {
 			swerveDrive = 
-				new SwerveParser(DriveConstants.SWERVE_JSON_DIRECTORY) // YAGSL reads from the deply/swerve directory.
-					.createSwerveDrive(DriveConstants.SWERVE_MAXIMUM_SPEED);
+				new SwerveParser(Drive.SWERVE_JSON_DIRECTORY) // YAGSL reads from the deply/swerve directory.
+					.createSwerveDrive(Drive.SWERVE_MAXIMUM_SPEED);
 		} catch(IOException e) { // instancing SwerveDrive can throw an error, so we need to catch that.
 			throw new RuntimeException(e);
 		}
@@ -46,7 +49,7 @@ public class DriveSubsystem extends SubsystemBase {
 			swerveDrive::resetOdometry,
 			swerveDrive::getRobotVelocity,
 			swerveDrive::setChassisSpeeds,
-			DriveConstants.HOLONOMIC_CONFIG,
+			Drive.HOLONOMIC_CONFIG,//I have no clue what this is meant to be honestly
 			() -> {
 				var alliance = DriverStation.getAlliance();
 				if (alliance.isPresent()) {

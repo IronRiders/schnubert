@@ -1,11 +1,11 @@
-package org.ironriders.drive;
+package frc.robot;
 
 import java.io.File;
-
-import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
-import com.pathplanner.lib.util.PIDConstants;
-import com.pathplanner.lib.util.ReplanningConfig;
-
+/** 
+import com.pathplanner.lib.util.HolonomicPathFollowerConfig; does not exit anymore
+import com.pathplanner.lib.util.PIDConstants; does not exit anymore
+import com.pathplanner.lib.util.ReplanningConfig; does not exit anymore
+*/
 import edu.wpi.first.wpilibj.Filesystem;
 
 public class Constants {
@@ -18,12 +18,12 @@ public class Constants {
 
         public static final File SWERVE_JSON_DIRECTORY = new File(Filesystem.getDeployDirectory(), "swerve"); // YAGSL directory
 
-        public static final HolonomicPathFollowerConfig HOLONOMIC_CONFIG = new HolonomicPathFollowerConfig(
+        /**public static final HolonomicPathFollowerConfig HOLONOMIC_CONFIG = new HolonomicPathFollowerConfig(
             new PIDConstants(5.0, 0.0, 0.0), // Translation PID constants
             new PIDConstants(5.0, 0.0, 0.0), // Rotation PID constants
             SWERVE_MAXIMUM_SPEED,
             0.43,
             new ReplanningConfig() // Default path replanning config
-        );
+        ); Errors go bye-bye */
     }
 }

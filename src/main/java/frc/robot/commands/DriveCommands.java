@@ -1,4 +1,4 @@
-package org.ironriders.drive;
+ package frc.robot.commands;
 
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
@@ -7,6 +7,8 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import swervelib.SwerveDrive;
+
+import frc.robot.subsystems.DriveSubsystem;
 
 public class DriveCommands {
 	private final DriveSubsystem driveSubsystem;
@@ -32,10 +34,10 @@ public class DriveCommands {
 			// Run the drive method with the inputs multiplied by the max speed.
 			driveSubsystem.drive(
 				new Translation2d(
-					inputTranslationX.getAsDouble() * swerveDrive.getMaximumVelocity(), 
-					inputTranslationY.getAsDouble() * swerveDrive.getMaximumVelocity()
+					inputTranslationX.getAsDouble() * swerveDrive.getMaximumChassisVelocity(), //no idea if this is the same thing
+					inputTranslationY.getAsDouble() * swerveDrive.getMaximumChassisVelocity()
 				),
-				inputRotation.getAsDouble() * swerveDrive.getMaximumAngularVelocity(),
+				inputRotation.getAsDouble() * swerveDrive.getMaximumChassisAngularVelocity(),//if its by module instead change to getMaximumModuleAngularVelocity and same above
 				true // Gus likes it this way
 			);
 		});
