@@ -4,7 +4,6 @@ package frc.robot.commands;
 import java.util.function.DoubleSupplier;
 
 import com.revrobotics.spark.*;
-import edu.wpi.first.*;
 import frc.robot.Constants.Manipulator;
 import frc.robot.subsystems.ManipulatorSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
