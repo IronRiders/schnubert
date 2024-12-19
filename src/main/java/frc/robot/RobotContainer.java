@@ -4,12 +4,15 @@
 
 package frc.robot;
 
-import frc.robot.subsystems.*;
-import frc.robot.commands.*;
+import frc.robot.Constants.Drive;
+import frc.robot.commands.DriveCommands;
+import frc.robot.commands.ManipulatorCommands;
+import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.ManipulatorSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.Constants.*;
+
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -20,7 +23,9 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final DriveSubsystem driveSubsystem = new DriveSubsystem();
   private final DriveCommands driveCommands = driveSubsystem.getCommands();
-
+  private final ManipulatorSubsystem manipulatorSubsystem=new ManipulatorSubsystem();
+  private final ManipulatorCommands manipulatorCommands= manipulatorSubsystem.getCommands();
+  
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController primaryController =
             new CommandXboxController(Drive.DRIVER_CONTROLLER_PORT);
@@ -41,14 +46,16 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-   /** driveSubsystem.setDefaultCommand(
-         driveCommands.teleopCommand(
+	/**drive.setDefaultCommand(
+        driveCommands.teleopCommand(
                 () -> controlCurve(primaryController.getLeftY()),
                 () -> controlCurve(primaryController.getLeftX()),
                 () -> controlCurve(primaryController.getRightX()),
                 () -> controlCurve(primaryController.getRightY())
-        ) 
-    ); Frankly a problem for later*/
+        )
+    );*/
+  primaryController.b().onTrue(manipulatorCommands.setSpeed(() -> 1).onlyWhile(() -> manipulatorSubsystem.beamBroken()));
+  primaryController.a().onTrue(manipulatorCommands.setSpeed(() -> -1).withTimeout(1));
   }
 
   /**

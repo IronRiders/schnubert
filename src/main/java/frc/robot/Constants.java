@@ -25,5 +25,10 @@ public class Constants {
             0.43,
             new ReplanningConfig() // Default path replanning config
         ); Errors go bye-bye */
+        
+    }
+    public class Manipulator{
+        public static final int LAUNCHER_ID=3;
+        public static final int GPIO_PORT=0;
     }
 }
