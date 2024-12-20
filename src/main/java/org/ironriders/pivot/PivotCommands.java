@@ -1,5 +1,4 @@
-package frc.robot.commands;
-
+package org.ironriders.pivot;
 
 /*
  * Commands for the Pivot Subsystem. This class does not extend BaseCommand, it should contain functions

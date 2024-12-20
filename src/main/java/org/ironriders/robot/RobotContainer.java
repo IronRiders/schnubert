@@ -2,14 +2,17 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot;
+package org.ironriders.robot;
 
-import frc.robot.Constants.Drive;
-import frc.robot.commands.DriveCommands;
-import frc.robot.commands.ManipulatorCommands;
-import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.ManipulatorSubsystem;
+import org.ironriders.drive.DriveCommands;
+import org.ironriders.drive.DriveSubsystem;
+import org.ironriders.lib.Constants;
+import org.ironriders.lib.Utils;
+import org.ironriders.manipulator.ManipulatorCommands;
+import org.ironriders.manipulator.ManipulatorSubsystem;
+
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -23,12 +26,13 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final DriveSubsystem driveSubsystem = new DriveSubsystem();
   private final DriveCommands driveCommands = driveSubsystem.getCommands();
-  private final ManipulatorSubsystem manipulatorSubsystem=new ManipulatorSubsystem();
-  private final ManipulatorCommands manipulatorCommands= manipulatorSubsystem.getCommands();
   
+  private final ManipulatorSubsystem manipulatorSubsystem = new ManipulatorSubsystem();
+  private final ManipulatorCommands manipulatorCommands = manipulatorSubsystem.getCommands();
+
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController primaryController =
-            new CommandXboxController(Drive.DRIVER_CONTROLLER_PORT);
+            new CommandXboxController(Constants.Drive.DRIVER_CONTROLLER_PORT);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -46,16 +50,13 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-	/**drive.setDefaultCommand(
-        driveCommands.teleopCommand(
+    driveSubsystem.setDefaultCommand(
+        driveCommands.driveTeleop(
                 () -> controlCurve(primaryController.getLeftY()),
                 () -> controlCurve(primaryController.getLeftX()),
-                () -> controlCurve(primaryController.getRightX()),
-                () -> controlCurve(primaryController.getRightY())
+                () -> controlCurve(primaryController.getRightX())
         )
-    );*/
-  primaryController.b().onTrue(manipulatorCommands.setSpeed(() -> 1).onlyWhile(() -> manipulatorSubsystem.beamBroken()));
-  primaryController.a().onTrue(manipulatorCommands.setSpeed(() -> -1).withTimeout(1));
+    );
   }
 
   /**
@@ -64,7 +65,11 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An example command will be run in autonomous
-    return manipulatorCommands.setSpeed(()->1);
+    // Nothing right now :(
+    return Commands.none();
   }
+
+  private double controlCurve(double input) {
+        return Utils.controlCurve(input, Constants.Drive.CONTROL_CURVE_EXPONENT, Constants.Drive.CONTROL_CURVE_DEADBAND);
+    }
 }
