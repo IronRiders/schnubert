@@ -1,1 +1,3 @@
-no idea what happend to thing thing. it died i guess
+# SCHNUBERT (or schnoobert, shnubert, schnuburt, etc.)
+
+This is the repository for the MOCK SEASON before 2025's REEFSCAPE.
