@@ -1,4 +1,4 @@
-package frc.robot.commands;
+package org.ironriders.robot;
 
 /*
  * Same format as other command classes. This class, however, contains commands which do more complicated

@@ -1,6 +1,5 @@
 package org.ironriders.drive;
 
-import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.math.geometry.Translation2d;

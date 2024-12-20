@@ -1,20 +1,16 @@
 package org.ironriders.drive;
 
 import java.io.IOException;
-
 import com.pathplanner.lib.auto.AutoBuilder;
-
+import com.pathplanner.lib.config.RobotConfig;
 import swervelib.SwerveDrive;
 import swervelib.parser.SwerveParser;
 import swervelib.telemetry.SwerveDriveTelemetry;
 import swervelib.telemetry.SwerveDriveTelemetry.TelemetryVerbosity;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import org.ironriders.lib.Constants;
 
 /**
  * The SwerveSubsystem encompasses everything that the Swerve Drive needs to function.
@@ -23,17 +19,17 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
  */
 public class DriveSubsystem extends SubsystemBase {
 
-	private DriveCommands driveCommands;
+	private DriveCommands commands;
 	private SwerveDrive swerveDrive;
 
 	public DriveSubsystem() throws RuntimeException {
 
-		driveCommands = new DriveCommands(this);
+		commands = new DriveCommands(this);
 
 		try {
 			swerveDrive = 
-				new SwerveParser(DriveConstants.SWERVE_JSON_DIRECTORY) // YAGSL reads from the deply/swerve directory.
-					.createSwerveDrive(DriveConstants.SWERVE_MAXIMUM_SPEED);
+				new SwerveParser(Constants.Drive.SWERVE_JSON_DIRECTORY) // YAGSL reads from the deply/swerve directory.
+					.createSwerveDrive(Constants.Drive.SWERVE_MAXIMUM_SPEED);
 		} catch(IOException e) { // instancing SwerveDrive can throw an error, so we need to catch that.
 			throw new RuntimeException(e);
 		}
@@ -41,12 +37,20 @@ public class DriveSubsystem extends SubsystemBase {
 		swerveDrive.setHeadingCorrection(false);
 		SwerveDriveTelemetry.verbosity = TelemetryVerbosity.HIGH;
 
-		AutoBuilder.configureHolonomic(
+		RobotConfig robotConfig = null;
+		try {
+			robotConfig = RobotConfig.fromGUISettings();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		AutoBuilder.configure(
 			swerveDrive::getPose,
 			swerveDrive::resetOdometry,
 			swerveDrive::getRobotVelocity,
-			swerveDrive::setChassisSpeeds,
-			DriveConstants.HOLONOMIC_CONFIG,
+			(speeds, feedforwards) -> swerveDrive.setChassisSpeeds(speeds),
+			Constants.Drive.HOLONOMIC_CONFIG,
+			robotConfig,
 			() -> {
 				var alliance = DriverStation.getAlliance();
 				if (alliance.isPresent()) {
@@ -71,9 +75,9 @@ public class DriveSubsystem extends SubsystemBase {
 		swerveDrive.drive(translation, rotation, fieldRelative, false);
 	}
 
-	/** Fetch the SwerveCommands instance */
+	/** Fetch the DriveCommands instance */
 	public DriveCommands getCommands() {
-		return driveCommands;
+		return commands;
 	}
 
 	/** Fetch the SwerveDrive instance */

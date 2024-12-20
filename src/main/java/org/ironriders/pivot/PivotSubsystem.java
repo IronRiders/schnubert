@@ -1,4 +1,4 @@
-package frc.robot.subsystems;
+package org.ironriders.pivot;
 
 /*
  * The Pivot Subsystem manages the rotation of the ball intake. 
